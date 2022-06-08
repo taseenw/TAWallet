@@ -1,22 +1,36 @@
 <!DOCTYPE html>
 <html>
-    <body id="particles-js" background = "https://img.wallpapersafari.com/desktop/1920/1080/3/68/b4ZIyG.jpg"></body>
-    
-    <link rel="stylesheet" href="styles.css">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>TAWallet</title>
+        <link rel="stylesheet" href="styles.css">
+    </head>
 
-    <div class="animated bounceInDown">
-        <div class="container">
-            <span class="error animated tada" id="msg"></span>
-            <form name="form1" class="box" onsubmit="return checkStuff()">
-                <h2>TAWallet</h2>
-                <h4>Portflio<span> Login</span></h4>
-                <h5>Sign in to your account.</h5>
-                    <input type="text" name="email" placeholder="Email" autocomplete="off">
-                    <i class="typcn typcn-eye" id="eye"></i>
-                    <input type="password" name="password" placeholder="Passsword" id="pwd" autocomplete="off">
-                    <input type="submit" value="Sign in" class="btn1">
-            </form>
-            <a href="#" class="dnthave">Don't have an account? Sign up</a>
-        </div> 
-    </div>
+    <body id="particles-js" class="fullbkg" background = "normalBackground.jpg">
+        <div class="headline">
+            <h2>TAWallet</h2>
+            <h1>
+                Your Investments<br>Bestfriend
+            </h1>
+        </div>
+
+        <div class="animated bounceInDown">
+            <div class="container">
+                <span class="error animated tada" id="msg"></span>
+                <form name="form1" class="box" method='POST'>
+                    <h2>TAWallet</h2>
+                    <h4>Portflio<span> Login</span></h4>
+                    <h5>Sign in to your account.</h5>
+                        <input type="text" name="email" placeholder="Email" autocomplete="off">
+                        <i class="typcn typcn-eye" id="eye"></i>
+                        <input type="password" name="password" placeholder="Passsword" id="pwd" autocomplete="off">
+                        <input type="submit" value="Sign in" class="btn1">
+                </form>
+                <a href="#" class="dnthave" onclick="location.href='registration.html'">Don't have an account? Sign up</a>
+            </div>
+        </div>
+    </body>
+
 </html>
