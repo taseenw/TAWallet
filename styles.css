@@ -25,8 +25,6 @@ body, html {
   top: 90px;
   left: 10%;
   position: absolute;
-  border-style: solid;
-  border-width: 1px;
 }
 .headline h1{
   font-family: 'Source Sans Pro', sans-serif;
@@ -296,4 +294,8 @@ label span {
   left: 7.2%;
   color: white;
   display: none;
+}
+
+h1.welcome{
+  color: var(--cyan);
 }
