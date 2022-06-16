@@ -34,15 +34,59 @@
                 return true; 
             }
             else{
-                echo "Incorrect";
                 return false;
             }
-        }
-        else{
-            echo "Invalid email";
+        }else{
+            return false;
         }
     
     }
+    
+    /* Function registerNewUser
+    *
+    * @desc Function to register new user, inserting new credentials/info in user database
+    * @Created on 15-06-2022
+    * @param String fullName, String email, String password
+    */
+
+    function registerNewUser($fullName, $email, $password){
+        $hashedPassword=password_hash($password, PASSWORD_DEFAULT);
+        try{
+            global $pdo;
+            
+            $qry = $pdo -> prepare("INSERT INTO users (fullName, userEmail, userPassword) VALUES (:fullName, :userEmail, :userPassword)");
+            $qry -> execute(array(
+                'fullName' => $fullName,
+                'userEmail' => $email,
+                'userPassword' => $hashedPassword
+            ));
+
+            createNewWallet($email);
+
+            }catch (Exception $e){
+            echo "Email Already Exists";
+        }
+    }
+
+        /* Function createNewWallet
+    *
+    * @desc Function to create a blank wallet for new users
+    * @Created on 16-06-2022
+    * @param String email
+    */
+
+    function createNewWallet($email){
+        global $pdo;
+            
+        $qry = $pdo -> prepare("INSERT INTO wallets (userEmail, userWallet) VALUES (:userEmail, :userWallet)");
+        $qry -> execute(array(
+            'userEmail' => $email,
+            'userWallet' => "{}"
+        ));
+
+    }
+
+
 
     /* Function pullUserData
     *
@@ -64,5 +108,27 @@
         $userData = $userDataSet[0];
 
         return $userData; //Sending back all the data in the table that corresponds with the logged in user
+    }
+
+        /* Function pullUserWallet
+    *
+    * @desc Function to pull in the wallet of the user thats logged in through the database
+    * @Created on 15-06-2022
+    * @param String emailLoggedIn
+    * @return Array userWallet
+    */
+
+    function pullUserWallet($emailLoggedIn){
+        global $pdo;
+        
+        $qry = $pdo -> prepare("SELECT userWallet FROM wallets WHERE userEmail =:email;");
+        $qry -> execute(array(
+            'email' => $emailLoggedIn
+        ));
+
+        $userWalletArr = $qry -> fetchAll(PDO::FETCH_ASSOC);
+        $userWallet = $userWalletArr[0]["userWallet"];
+
+        return $userWallet; //Sending back all the data in the table that corresponds with the logged in user
     }
 ?>

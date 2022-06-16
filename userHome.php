@@ -14,9 +14,11 @@
     session_start();
     if (!$_SESSION['userEmail']) header("location:index.php");
 
-    //Call to function fetching all the users data based on email logged in
+    //Call to function fetching all the users data based on email logged in, and fetch users wallet
     $userData = pullUserData($_SESSION['userEmail']);
+    $userWallet = pullUserWallet($_SESSION['userEmail']);
 
+    echo $userWallet;
 ?>
 
 <!DOCTYPE html>

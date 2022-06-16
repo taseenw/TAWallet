@@ -1,3 +1,33 @@
+<?php
+    /**
+    * Author: Taseen Waseq
+    * Created on 15-06-2022
+    * PHP file constructing the registration encountered when users go to signup
+    * Include dbProperties.php: containing necessary credentials for database access
+    * Include functions.php: containing all frequently used functions
+    */
+
+    include('dbProperties.php');
+    include('functions.php');
+
+    session_start();
+  
+    //If signup was pressed, verify confirm password, and proceed with registration
+    if(isset($_POST["submit"])){ 
+        if(strcmp($_POST["password"], $_POST["confPassword"]) != 0){
+            echo "Passwords do not match";
+            $confPassword = false;
+        }else{
+            $confPassword = true;
+            registerNewUser($_POST["name"], $_POST["email"], $_POST["password"]);
+            $_SESSION['userEmail'] = $_POST["email"];
+            header("location:userHome.php");
+        }
+    }
+
+    if(!isset($_POST["submit"]) || !$confPassword){
+?>
+
 <!DOCTYPE html>
 <html>
     <head>
@@ -18,14 +48,15 @@
                     <h5>Sign up for your account</h5>
                         <input type="text" name="name" placeholder="Full Name" autocomplete="off">
                         <i class="typcn typcn-eye" id="eye"></i>
-                        <input type="text" name="email" placeholder="Email" autocomplete="off">
+                        <input type="email" name="email" placeholder="Email" autocomplete="off">
                         <input type="password" name="password" placeholder="Password" id="pwd" autocomplete="off">
                         <input type="password" name="confPassword" placeholder="Confirm Password" id="pwd" autocomplete="off">
-                        <input type="submit" value="Sign Up" class="regBtn1">
+                        <input type="submit" name="submit" value="Sign Up" class="regBtn1">
                 </form>
-                <a href="#" class="returnLogin" onclick="location.href='index.html'">Return to Login</a>
+                <a href="#" class="returnLogin" onclick="location.href='index.php'">Return to Login</a>
             </div>
         </div>   
+        <?php }?>
     </body>
 
 </html>

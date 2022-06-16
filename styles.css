@@ -100,7 +100,7 @@ body, html {
   margin-bottom: 45px;
 }
 
-.box input[type = "text"],.box input[type = "password"] {
+.box input[type = "text"], .box input[type = "email"],.box input[type = "password"] {
   display: block;
   margin: 20px auto;
   background: #262e49;
@@ -121,7 +121,7 @@ body, html {
   color: #565f79;
 }
 
-.box input[type = "text"]:focus,.box input[type = "password"]:focus {
+.box input[type = "text"]:focus, .box input[type = "text"]:focus, .box input[type = "password"]:focus {
   border: 1px solid #79A6FE;
   
 }
@@ -154,7 +154,7 @@ body, html {
   margin-bottom: 45px;
 }
 
-.regBox input[type = "text"],.regBox input[type = "password"] {
+.regBox input[type = "text"], .regBox input[type = "email"], .regBox input[type = "password"] {
   display: block;
   margin: 20px auto;
   background: #262e49;
@@ -172,7 +172,7 @@ body, html {
   
 }
 
-.regBox input[type = "text"]:focus,.regBox input[type = "password"]:focus {
+.regBox input[type = "text"]:focus, .regBox input[type = "email"]:focus, .regBox input[type = "password"]:focus {
   border: 1px solid #79A6FE;
   
 }
