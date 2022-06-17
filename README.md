@@ -1,5 +1,4 @@
-# TAWallet
-## Investment Tracking Hub
+# TAWallet - Investment Tracking Hub
 
 ### Resources:
   **Stock API**<br>
