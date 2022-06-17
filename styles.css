@@ -299,3 +299,7 @@ label span {
 h1.welcome{
   color: var(--cyan);
 }
+
+.walletContainer h5{
+  color: var(--cyan);
+}

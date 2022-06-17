@@ -17,8 +17,6 @@
     //Call to function fetching all the users data based on email logged in, and fetch users wallet
     $userData = pullUserData($_SESSION['userEmail']);
     $userWallet = pullUserWallet($_SESSION['userEmail']);
-
-    echo $userWallet;
 ?>
 
 <!DOCTYPE html>
@@ -33,7 +31,9 @@
 
     <body id="particles-js" class="fullbkg" background = "normalBackground.jpg">
         <h1 class="welcome">Welcome <?php echo $userData["fullName"];?></h1>
-        <div class="dbInfo">
+        <div class="walletContainer">
+            <h5><?php constructWalletHoldings($userWallet);?></h5>
+            <p id = "holdings"> </p>
         </div>
 
     </body>

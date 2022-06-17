@@ -68,7 +68,7 @@
         }
     }
 
-        /* Function createNewWallet
+    /* Function createNewWallet
     *
     * @desc Function to create a blank wallet for new users
     * @Created on 16-06-2022
@@ -110,12 +110,12 @@
         return $userData; //Sending back all the data in the table that corresponds with the logged in user
     }
 
-        /* Function pullUserWallet
+    /* Function pullUserWallet
     *
     * @desc Function to pull in the wallet of the user thats logged in through the database
     * @Created on 15-06-2022
     * @param String emailLoggedIn
-    * @return Array userWallet
+    * @return Array userWallet (JSON Formatted)
     */
 
     function pullUserWallet($emailLoggedIn){
@@ -130,5 +130,56 @@
         $userWallet = $userWalletArr[0]["userWallet"];
 
         return $userWallet; //Sending back all the data in the table that corresponds with the logged in user
+    }
+
+    /* Function constructWalletHoldings
+    *
+    * @desc Function populate userHome with the value of all users holdings
+    * @Created on 17-06-2022
+    * @param String userWallet (JSON Formatted)
+    */
+
+    function constructWalletHoldings($userWallet){
+        //Isolate all tickers from wallet, bear in mind all keys = ticker names
+        $tickerCount = 0;
+        $jsonWallet = json_decode($userWallet);
+
+        //Iterate all tickers (stocks/coins in wallet)
+        foreach($jsonWallet as $ticker => $quantHeld) {
+            $currentTickerValue = getTickerValues($ticker);
+            $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
+            echo $ticker.' : '.$quantHeld." | Current Price: $".$currentTickerValue." | Holding Value: $".$currentTickerHoldingValue."<br>";
+            $tickerCount++;
+        }
+
+    }
+
+    /* Function getTickerValues
+    *
+    * @desc Function to pull the information for the passed ticker, using the STOCK API
+    * @Created on 17-06-2022
+    * @param String ticker
+    * @return String tickerPrice
+    */
+
+    function getTickerValues($ticker){
+        //Dynamic data
+        $API_KEY = "0NXZXOGWYWERI0NF";
+        $date = "2022-06-16";
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL,("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=$ticker&apikey=$API_KEY"));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $server_output = curl_exec ($ch);
+        curl_close ($ch);
+        $result = json_decode($server_output);
+
+        $dataForAllDays = $result->{'Time Series (Daily)'};
+        $dataForSingleDate = $dataForAllDays->{$date};
+
+        $tickerPrice = $dataForSingleDate->{'4. close'};
+
+        return $tickerPrice;
+
     }
 ?>
