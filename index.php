@@ -39,7 +39,7 @@
         <div class="headline">
             <h2 id="title">TAWallet</h2>
             <h1>
-                All Your Assets<br>One Click
+                All Your Assets<br>One Hub
             </h1>
         </div>
 

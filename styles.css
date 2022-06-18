@@ -354,3 +354,153 @@ h1.welcome{
   padding: 10px 10px;
 }
 
+
+/* MODAL */
+.modal {
+  display: none; /* Hidden by default */
+  position: fixed; /* Stay in place */
+  z-index: 1; /* Sit on top */
+  padding-top: 100px; /* Location of the box */
+  left: 0;
+  top: 0;
+  width: 100%; /* Full width */
+  height: 100%; /* Full height */
+  overflow: auto; /* Enable scroll if needed */
+  background-color: rgb(0,0,0); /* Fallback color */
+  background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+  border-radius: 10px;
+}
+
+/* Modal Content */
+.modal-content {
+  border-top: 10px solid var(--mblue);
+  border-bottom: 10px solid var(--teal);
+  border-radius: 10px;
+  position: relative;
+  background-color: var(--bluebkg);
+  margin: auto;
+  padding: 0;
+  width: 30%;
+  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2),0 6px 20px 0 rgba(0,0,0,0.19);
+  -webkit-animation-name: animatetop;
+  -webkit-animation-duration: 0.4s;
+  animation-name: animatetop;
+  animation-duration: 0.4s
+
+}
+
+/* Add Animation */
+@-webkit-keyframes animatetop {
+  from {top:-300px; opacity:0} 
+  to {top:0; opacity:1}
+}
+
+@keyframes animatetop {
+  from {top:-300px; opacity:0}
+  to {top:0; opacity:1}
+}
+
+/* The Close Button */
+.close {
+  color: white;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #000;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.modal-header {
+  padding: 2px 16px;
+}
+
+.modal-body {
+  padding: 2px 16px;
+  border-radius: 10px;
+}
+
+.modal-body h2{
+  color: white;
+  font-size: 20px;
+  padding: 4px;
+  margin: 4px;  
+}
+
+.modal-body h3{
+  font-size: 25px;
+  color: var(--mblue);
+  padding: 3px;
+  margin: 3px;
+}
+
+.changePassBox h2 {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--mblue); 
+  font-size: 50px;
+  margin-top:21px;;
+}
+
+.changePassBox h4 {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--mblue); 
+  font-size: 18px;
+  margin-top:-5px;;
+}
+
+.changePassBox h4 span {
+  color: #dfdeee;
+  font-weight: lighter;
+}
+
+.changePassBox h5 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 13px;
+  color: #a1a4ad;
+  letter-spacing: 1.5px;
+  margin-top: -10px;
+  margin-bottom: 45px;
+}
+
+.changePassBox input[type = "text"], .changePassBox input[type = "email"], .changePassBox input[type = "password"] {
+  display: block;
+  margin: 20px auto;
+  background: #262e49;
+  border: 0;
+  border-radius: 5px;
+  padding: 14px 10px;
+  width: 320px;
+  outline: none;
+  color: #d6d6d6;
+      -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+  
+}
+
+.changePassBox input[type = "text"]:focus, .changePassBox input[type = "email"]:focus, .changePassBox input[type = "password"]:focus {
+  border: 1px solid #79A6FE;
+  
+}
+
+.changePassContainer{
+  margin: 0;
+  top: 120px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  background-color: rgb( 33, 41, 66 );
+  border-radius: 9px;
+  border-top: 10px solid var(--mblue);
+  border-bottom: 10px solid var(--teal);
+  width: 400px;
+  height: 425px;
+  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
+}

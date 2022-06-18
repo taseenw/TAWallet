@@ -33,19 +33,74 @@
 
         <div class="navBar">
             <ul>
-                <li><a href="#home">Buy</a></li>
-                <li><a href="#news">Sell</a></li>
+                <li><a onclick="openBuyModal()">Buy</a></li>
+                <li><a onclick="openSellModal()">Sell</a></li>
                 <li style="float:right"><a href="logOut.php">Logout</a></li>
-                <li style="float:right"><a href="#contact">Account Settings</a></li>
+                <li style="float:right"><a href="accountConf.php">Account Settings</a></li>
             </ul>
         </div>
 
+        <!-- Buy Modal -->
+        <div id="buyModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                    </div>
+                    <h3>Buy</h3>
+                    <p id="buyModaltext">Some text in the Modal Body</p>
+                    <h2>Confirm Addition</h2>
+                </div>
+            </div>
+        </div>
+
+        <!-- Sell Modal -->
+        <div id="sellModal" class="modal">
+            <!-- Modal content -->
+            <div class="modal-content">
+
+                <div class="modal-body">
+                    <div class="modal-header">
+                        <span class="close" onclick="closeModal()">&times;</span>
+                    </div>
+                    <h3>Sell</h3>
+                    <p id="buyModaltext">Some text in the Modal Body</p>
+                    <h2>Confirm Subtraction</h2>
+                </div>
+            </div>
+        </div>
 
         <h1 class="welcome">Welcome <?php echo $userData["fullName"];?></h1>
         <div class="walletContainer">
             <h5><?php constructWalletHoldings($userWallet);?></h5>
             <p id = "holdings"> </p>
         </div>
+
+        <script>
+            function openBuyModal(){
+                var buyModal = document.getElementById('buyModal');
+                buyModal.style.display = "block";
+            }
+
+            function openSellModal(){
+                var sellModal = document.getElementById('sellModal');
+                sellModal.style.display = "block";            }
+
+            function closeModal() {
+                buyModal.style.display = "none";
+                sellModal.style.display = "none";
+            }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    buyModal.style.display = "none";
+                    sellModal.style.display = "none";
+                }
+            }
+            
+        </script>
 
     </body>
 </html>
