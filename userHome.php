@@ -2,7 +2,7 @@
     /**
     * Author: Taseen Waseq
     * Created on 15-06-2022
-    * PHP file constructing constructing the user homepage upon login
+    * PHP file constructing the user homepage upon login
     * Include dbProperties.php: containing necessary credentials for database access
     * Include functions.php: containing all frequently used functions
     */
@@ -30,6 +30,17 @@
     </head>
 
     <body id="particles-js" class="fullbkg" background = "normalBackground.jpg">
+
+        <div class="navBar">
+            <ul>
+                <li><a href="#home">Buy</a></li>
+                <li><a href="#news">Sell</a></li>
+                <li style="float:right"><a href="logOut.php">Logout</a></li>
+                <li style="float:right"><a href="#contact">Account Settings</a></li>
+            </ul>
+        </div>
+
+
         <h1 class="welcome">Welcome <?php echo $userData["fullName"];?></h1>
         <div class="walletContainer">
             <h5><?php constructWalletHoldings($userWallet);?></h5>

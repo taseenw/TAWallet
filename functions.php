@@ -143,14 +143,18 @@
         //Isolate all tickers from wallet, bear in mind all keys = ticker names
         $tickerCount = 0;
         $jsonWallet = json_decode($userWallet);
+        $portfolioTotalValue = 0;
 
-        //Iterate all tickers (stocks/coins in wallet)
+        //Iterate all tickers (stocks/coins in wallet), print holding data
         foreach($jsonWallet as $ticker => $quantHeld) {
             $currentTickerValue = getTickerValues($ticker);
             $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
             echo $ticker.' : '.$quantHeld." | Current Price: $".$currentTickerValue." | Holding Value: $".$currentTickerHoldingValue."<br>";
+            $portfolioTotalValue += $currentTickerHoldingValue;
             $tickerCount++;
         }
+
+        echo "Portfolio Value : $".round($portfolioTotalValue, 2);
 
     }
 
@@ -165,7 +169,7 @@
     function getTickerValues($ticker){
         //Dynamic data
         $API_KEY = "0NXZXOGWYWERI0NF";
-        $date = "2022-06-16";
+        $date = "2022-06-17";
 
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=$ticker&apikey=$API_KEY"));
@@ -182,4 +186,5 @@
         return $tickerPrice;
 
     }
+
 ?>

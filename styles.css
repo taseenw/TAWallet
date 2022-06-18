@@ -4,6 +4,7 @@
   --dblue: #0059ff;
   --mblue: #00a2ff;
   --cyan: #00eeff;
+  --bluebkg: rgb( 33, 41, 66 );
   --halfway: #00ffbf;
   --ngreen: #00ff22;
   --teal: #00ff88;
@@ -301,5 +302,55 @@ h1.welcome{
 }
 
 .walletContainer h5{
+  margin: 23px;
+  padding-top: 30px;
+  padding-bottom: 30px;
+
+  padding-left: 20px;
+  padding-right: 20px;
+
+  top: 200px;
+  left: 50%;
+  position: absolute;
+  text-align: center;
+  transform: translateX(-50%);
+  background-color: rgb( 33, 41, 66 );
+  border-radius: 9px;
+  border-top: 10px solid var(--mblue);
+  border-bottom: 10px solid var(--teal);
+
+  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
   color: var(--cyan);
 }
+
+.navBar {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-weight: bold;
+}
+
+.navBar ul {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+  background-color: var(--bluebkg);
+}
+
+.navBar li {
+  float: left;
+}
+
+.navBar li a {
+  display: block;
+  color: var(--mblue);
+  text-align: center;
+  padding: 14px 16px;
+  text-decoration: none;
+}
+
+.navBar li a:hover:not(.active) {
+  color: var(--cyan);
+  font-size: larger;
+  padding: 10px 10px;
+}
+
