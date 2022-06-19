@@ -63,10 +63,8 @@
             <?php 
             //Sign In was pressed and login is invalid
             } if(isset($loginValid) && !$loginValid){ ?>
-
             document.getElementById("cont").style.height = "550px";
             document.getElementById("prompt").innerHTML="Sign in to your account. <br><br>*Login Unsuccessful* <br>Please check Email / Password and try again.";
-
             <?php } ?>
         </script>
     </body>

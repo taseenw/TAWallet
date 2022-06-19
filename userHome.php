@@ -12,7 +12,7 @@
 
     //If page is attempted to be accessed without previously logging in
     session_start();
-    if (!$_SESSION['userEmail']) header("location:index.php");
+    if (!$_SESSION["userEmail"]) header("location:index.php");
 
     //Call to function fetching all the users data based on email logged in, and fetch users wallet
     $userData = pullUserData($_SESSION['userEmail']);
@@ -51,23 +51,35 @@
                     </div>
                     <h3>Buy</h3>
                     <p id="buyModaltext">Some text in the Modal Body</p>
-                    <h2>Confirm Addition</h2>
+                    <h2 id="confirmOrder">Confirm Addition</h2>
                 </div>
             </div>
         </div>
 
         <!-- Sell Modal -->
         <div id="sellModal" class="modal">
-            <!-- Modal content -->
             <div class="modal-content">
-
                 <div class="modal-body">
                     <div class="modal-header">
                         <span class="close" onclick="closeModal()">&times;</span>
                     </div>
                     <h3>Sell</h3>
-                    <p id="buyModaltext">Some text in the Modal Body</p>
-                    <h2>Confirm Subtraction</h2>
+                    <form name="form1" class="transactionBox" method='POST' id="sellForm">
+                        <select id="tickerChoice" name="tickerChoice" form="sellForm">
+                            <option value="" selected disabled hidden>Select Holding</option>
+                            <?php
+                            $jsonWallet = json_decode($userWallet);
+                            foreach($jsonWallet as $ticker => $quantHeld) {
+                                echo "<option value = '".$ticker."'>".$ticker."</option>";    
+                            }
+                            ?>
+                        </select>
+                        <input type="number" name="tickerQuant" placeholder="Quantity" id="tickerQuant" autocomplete="off">
+                        <h2 id="confirmOrder">
+                            Confirm Subtraction
+                            <input type="submit" name="submit" value="✔️">
+                        </h2>
+                    </form>
                 </div>
             </div>
         </div>

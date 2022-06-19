@@ -30,7 +30,6 @@
         //Validate password if email exists in db, *note passwords are stored hashed
         if(isset($passwordArr[0]['userPassword'])){            
             if(password_verify($passwordInput, $passwordArr[0]['userPassword'])){ //Right password
-                echo "Correct";
                 return true; 
             }
             else{
@@ -185,6 +184,24 @@
 
         return $tickerPrice;
 
+    }
+
+    /* Function modifyPassword
+    *
+    * @desc function to change the password of the user logged in
+    * @Created on 19-06-2022
+    * @param String emailLoggedIn, String newPassword
+    */
+
+    function modifyPassword($emailLoggedIn, $newPassword){
+        $hashedNewPassword = password_hash($newPassword, PASSWORD_DEFAULT);
+        global $pdo;
+        
+        $qry = $pdo->prepare("UPDATE users SET userPassword = :userPassword WHERE userEmail = :userEmail");
+        $qry -> execute(array(
+            'userPassword' => $hashedNewPassword,
+            'userEmail' => $emailLoggedIn
+        ));
     }
 
 ?>

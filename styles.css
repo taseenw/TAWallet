@@ -424,13 +424,6 @@ h1.welcome{
   border-radius: 10px;
 }
 
-.modal-body h2{
-  color: white;
-  font-size: 20px;
-  padding: 4px;
-  margin: 4px;  
-}
-
 .modal-body h3{
   font-size: 25px;
   color: var(--mblue);
@@ -466,7 +459,7 @@ h1.welcome{
   margin-bottom: 45px;
 }
 
-.changePassBox input[type = "text"], .changePassBox input[type = "email"], .changePassBox input[type = "password"] {
+.changePassBox input[type = "password"] {
   display: block;
   margin: 20px auto;
   background: #262e49;
@@ -484,9 +477,13 @@ h1.welcome{
   
 }
 
-.changePassBox input[type = "text"]:focus, .changePassBox input[type = "email"]:focus, .changePassBox input[type = "password"]:focus {
+.changePassBox input[type = "password"]:focus {
   border: 1px solid #79A6FE;
-  
+}
+
+.returnLogin{
+  padding-top: 10px;
+  padding-bottom: 10px;
 }
 
 .changePassContainer{
@@ -504,3 +501,94 @@ h1.welcome{
   height: 425px;
   box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
 }
+
+
+.transactionBox h2 {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--mblue); 
+  font-size: 50px;
+  margin-top:21px;;
+}
+
+.transactionBox h4 {
+  font-family: 'Source Sans Pro', sans-serif;
+  color: var(--mblue); 
+  font-size: 18px;
+  margin-top:-5px;;
+}
+
+.transactionBox h4 span {
+  color: #dfdeee;
+  font-weight: lighter;
+}
+
+.transactionBox h5 {
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 13px;
+  color: #a1a4ad;
+  letter-spacing: 1.5px;
+  margin-top: -10px;
+  margin-bottom: 45px;
+}
+
+.transactionBox input[type = "text"], .transactionBox input[type = "number"], .transactionBox input[type = "password"] {
+  display: block;
+  margin: 20px;
+  background: #262e49;
+  border: 0;
+  border-radius: 5px;
+  padding: 14px 10px;
+  width: 320px;
+  outline: none;
+  color: #d6d6d6;
+      -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+  
+}
+
+.transactionBox input[type = "text"]:focus, .transactionBox input[type = "number"]:focus, .transactionBox input[type = "password"]:focus {
+  border: 1px solid #79A6FE;
+}
+
+.transactionBox select{
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 15px;
+  border: 1px solid #79A6FE;
+  display: block;
+  margin: 20px;
+  background: #262e49;
+  border: 0;
+  border-radius: 5px;
+  padding: 14px 10px;
+  width: 320px;
+  outline: none;
+  color: #d6d6d6;
+      -webkit-transition: all .2s ease-out;
+    -moz-transition: all .2s ease-out;
+    -ms-transition: all .2s ease-out;
+    -o-transition: all .2s ease-out;
+    transition: all .2s ease-out;
+}
+
+.transactionBox input[type = "submit"]{
+  background-color: var(--mblue);
+  border-radius: 5px;
+}
+
+#confirmOrder{
+  color: white;
+  font-size: 22px;
+  padding: 4px;
+  margin: 4px; 
+}
+
+#tickerQuant::placeholder{
+  font-family: 'Source Sans Pro', sans-serif;
+  font-size: 15px;
+  color: #d6d6d6;
+  opacity: 40%;
+}
+

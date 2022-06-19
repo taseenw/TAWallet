@@ -15,7 +15,6 @@
     //If signup was pressed, verify confirm password, and proceed with registration
     if(isset($_POST["submit"])){ 
         if(strcmp($_POST["password"], $_POST["confPassword"]) != 0){
-            echo "Passwords do not match";
             $confPassword = false;
         }else{
             $confPassword = true;
@@ -40,12 +39,12 @@
 
     <body id="particles-js" class="fullbkg" background = "normalBackground.jpg">
         <div class="animated bounceInDown">
-            <div class="regContainer">
+            <div class="regContainer" id="regCont">
                 <span class="error animated tada" id="msg"></span>
                 <form name="form1" class="regBox" method='POST'>
                     <h2>TAWallet</h2>
                     <h4>Portflio<span> Sign Up</span></h4>
-                    <h5>Sign up for your account</h5>
+                    <h5 id ="prompt">Sign up for your account</h5>
                         <input type="text" name="name" placeholder="Full Name" autocomplete="off">
                         <i class="typcn typcn-eye" id="eye"></i>
                         <input type="email" name="email" placeholder="Email" autocomplete="off">
@@ -56,7 +55,14 @@
                 <a href="#" class="returnLogin" onclick="location.href='index.php'">Return to Login</a>
             </div>
         </div>   
-        <?php }?>
+        <script>
+            <?php 
+            //Sign up pressed, but confirm password incorrect
+            } if(isset($confPassword) && !$confPassword){ ?>
+            document.getElementById("regCont").style.height = "650px";
+            document.getElementById("prompt").innerHTML="Sign up for your account. <br><br>*Passwords do NOT match*";
+            <?php } ?>
+        </script>
     </body>
 
 </html>
