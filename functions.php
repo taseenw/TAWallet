@@ -168,20 +168,27 @@
     function getTickerValues($ticker){
         //Dynamic data
         $API_KEY = "0NXZXOGWYWERI0NF";
-        $date = "2022-06-17";
+        $date = "2022-06-17 15:45:00";
 
         $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,("https://www.alphavantage.co/query?function=TIME_SERIES_DAILY&symbol=$ticker&apikey=$API_KEY"));
+        curl_setopt($ch, CURLOPT_URL,("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=$ticker&interval=5min&apikey=$API_KEY"));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $result = json_decode($server_output);
 
-        $dataForAllDays = $result->{'Time Series (Daily)'};
-        $dataForSingleDate = $dataForAllDays->{$date};
 
-        $tickerPrice = $dataForSingleDate->{'4. close'};
+        //Using the non-premium version of API, there is a limit to calls/minute, and will return error message if overused
+        try{
+            $dataForRecentTime = $result->{'Time Series (5min)'};
 
+            $dataForSingleTime = $dataForRecentTime->{$date};
+
+            $tickerPrice = $dataForSingleTime->{'4. close'};
+
+        }catch(Exception $e){
+            $tickerPrice = "API MAX: 5 calls a minute, please refresh after time passed, as this is the demo version";
+        }
         return $tickerPrice;
 
     }

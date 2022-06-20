@@ -578,6 +578,14 @@ h1.welcome{
   border-radius: 5px;
 }
 
+.transactionSummary{
+  color: white;
+}
+
+.transSumTable{
+  text-align: left;
+}
+
 #confirmOrder{
   color: white;
   font-size: 22px;
@@ -591,4 +599,3 @@ h1.welcome{
   color: #d6d6d6;
   opacity: 40%;
 }
-
