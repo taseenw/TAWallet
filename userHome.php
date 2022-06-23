@@ -50,8 +50,34 @@
                         <span class="close" onclick="closeModal()">&times;</span>
                     </div>
                     <h3>Buy</h3>
-                    <p id="buyModaltext">Some text in the Modal Body</p>
-                    <h2 id="confirmOrder">Confirm Addition</h2>
+                    <form name="buyForm" class="transactionBox" method='POST' id="buyForm">
+                        <input type="text" id="tickerChoiceToBuy" name="tickerChoiceToBuy" placeholder="Symbol" onchange="updateBuySummary()">
+                        <input type="number" min ="1" name="tickerQuantToBuy" onchange="updateBuySummary()" placeholder="Quantity" id="tickerQuantToBuy" autocomplete="off">
+
+                        <div class = "transactionSummary">
+                            <br><h4 style="text-decoration: underline">Transaction Summary</h4>
+                            <table class = "transSumTable">
+                                <tr>
+                                    <th>Holding: </th><td id = "tickerNameToBuy"> </td>
+                                </tr>
+                                <tr>
+                                    <th>Quantity: </th><td id = "tickerQuantToBuy"> </td>
+                                </tr>
+                                <tr>
+                                    <th>Price Per: </th><td id = "pricePerToBuy"> </td>
+                                </tr>
+                                <tr>
+                                    <th>Total Buy Price: </th><td id = "totalBuyPrice"> </td>
+                                </tr>
+                            </table>
+                            <p id = "transSummary"> </p>
+                        </div>
+
+                        <h2 id="confirmOrder">
+                            Confirm Addition
+                            <input type="submit" name="submit" value="✔️">
+                        </h2>
+                    </form>
                 </div>
             </div>
         </div>
@@ -64,8 +90,8 @@
                         <span class="close" onclick="closeModal()">&times;</span>
                     </div>
                     <h3>Sell</h3>
-                    <form name="form1" class="transactionBox" method='POST' id="sellForm">
-                        <select id="tickerChoice" name="tickerChoice" onchange="updateSummary()" form="sellForm">
+                    <form name="sellForm" class="transactionBox" method='POST' id="sellForm">
+                        <select id="tickerChoice" name="tickerChoice" onchange="updateSellSummary()" form="sellForm">
                             <option value="" selected disabled hidden>Select Holding</option>
                             <?php
                             $jsonWallet = json_decode($userWallet);
@@ -74,7 +100,7 @@
                             }
                             ?>
                         </select>
-                        <input type="number" min ="1" name="tickerQuant" onchange="updateSummary()" placeholder="Quantity" id="tickerQuant" autocomplete="off">
+                        <input type="number" min ="1" name="tickerQuant" onchange="updateSellSummary()" placeholder="Quantity" id="tickerQuant" autocomplete="off">
 
                         <div class = "transactionSummary">
                             <br><h4 style="text-decoration: underline">Transaction Summary</h4>
@@ -105,6 +131,8 @@
         </div>
 
         <h1 class="welcome">Welcome <?php echo $userData["fullName"];?></h1>
+
+        <div class="warning"><h2 id="warning"> </h2></div>
         <div class="walletContainer">
             <h5><?php constructWalletHoldings($userWallet);?></h5>
             <p id = "holdings"> </p>
@@ -112,21 +140,54 @@
 
         <script>
             //JavaScript functions: updateSummary for Sell/Buy Modals, and necessary functions for Modal functionality/display
-            function updateSummary(){
-                var curTicker = document.getElementById('tickerChoice').value;
-                var tickerQuant = document.getElementById('tickerQuant').value;
-                var pricePer = document.getElementById('pricePer');
+            function updateBuySummary(){
+                var curTickerToBuy = document.getElementById('tickerChoiceToBuy').value;
+                var tickerQuantToBuy = document.getElementById('tickerQuantToBuy').value;
+                var pricePerToBuy = document.getElementById('pricePerToBuy');
                 //AJAX Request to get current ticker price, using existing PHP methods
                 //Approach is used in order to use js obtained variable in PHP (ticker)
                 var xhttp = new XMLHttpRequest();
                 xhttp.onreadystatechange = function() {
                     if (this.readyState == 4 && this.status == 200) {
                     // this.responseText is the response
+                    pricePerToBuy.innerHTML = "$"+this.responseText;
+                    }
+                };
+                xhttp.open("GET", "jsTickerPriceReq.php?ticker="+curTickerToBuy);//Looking up employee via another page, passing phone number to identify the specific employee we're looking for
+                xhttp.send();
+
+                //Extract the ticker price as a number, to then calculate the total transaction price
+                var pricePerNumToBuy = pricePerToBuy.innerHTML;
+                //Return case of an invalid symbol
+                if(pricePerNumToBuy != ""){
+                    //Remember, pricePerNum format is a string: $12345
+                    pricePerNumToBuy = parseInt(pricePerNumToBuy.slice(1));
+
+                    var totalBuyPrice = pricePerNumToBuy*tickerQuantToBuy;
+
+                    document.getElementById('tickerNameToBuy').innerHTML = curTickerToBuy;
+                    document.getElementById('tickerQuantity').innerHTML = tickerQuantToBuy;
+                    if(isNaN(totalBuyPrice)){totalBuyPrice="";}
+                    document.getElementById('totalBuyPrice').innerHTML = "$"+totalBuyPrice;
+                }
+
+            }
+
+            function updateSellSummary(){
+                var curTicker = document.getElementById('tickerChoice').value;
+                var tickerQuant = document.getElementById('tickerQuant').value;
+                var pricePer = document.getElementById('pricePer');
+                //AJAX Request to get current ticker price, using existing PHP methods
+                //Approach is used in order to use js obtained variable in PHP (ticker)
+                var yhttp = new XMLHttpRequest();
+                yhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                    // this.responseText is the response
                         pricePer.innerHTML = "$"+this.responseText;
                     }
                 };
-                xhttp.open("GET", "jsTickerPriceReq.php?ticker="+curTicker);//Looking up employee via another page, passing phone number to identify the specific employee we're looking for
-                xhttp.send();
+                yhttp.open("GET", "jsTickerPriceReq.php?ticker="+curTicker);//Looking up employee via another page, passing phone number to identify the specific employee we're looking for
+                yhttp.send();
 
                 //Extract the ticker price as a number, to then calculate the total transaction price
                 var pricePerNum = pricePer.innerHTML;

@@ -140,20 +140,31 @@
 
     function constructWalletHoldings($userWallet){
         //Isolate all tickers from wallet, bear in mind all keys = ticker names
+        //Error checking for the possiblity of API returning NULL, hold count based on DB
         $tickerCount = 0;
+        $holdCount=0;
         $jsonWallet = json_decode($userWallet);
         $portfolioTotalValue = 0;
 
         //Iterate all tickers (stocks/coins in wallet), print holding data
         foreach($jsonWallet as $ticker => $quantHeld) {
             $currentTickerValue = getTickerValues($ticker);
-            $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
-            echo $ticker.' : '.$quantHeld." | Current Price: $".$currentTickerValue." | Holding Value: $".$currentTickerHoldingValue."<br>";
-            $portfolioTotalValue += $currentTickerHoldingValue;
-            $tickerCount++;
+            //Return case of invalid ticker
+            if($currentTickerValue != ""){
+                $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
+                echo $ticker.' : '.$quantHeld." | Current Price: $".$currentTickerValue." | Holding Value: $".$currentTickerHoldingValue."<br>";
+                $portfolioTotalValue += $currentTickerHoldingValue;
+                $tickerCount++;
+            }else{
+                echo $ticker.' : '.$quantHeld." | <i>API Call Limit Reached - Reload after 1 minute for price calculations</i><br>";
+            }
+            $holdCount++;
         }
-
-        echo "Portfolio Value : $".round($portfolioTotalValue, 2);
+        if($portfolioTotalValue == 0 && $holdCount !=0){
+            echo "Portfolio Value: <i>API Call Limit Reached - Reload after 1 minute for value calculation</i>";
+        }else{
+            echo "Portfolio Value : $".round($portfolioTotalValue, 2);
+        }
 
     }
 
@@ -168,29 +179,50 @@
     function getTickerValues($ticker){
         //Dynamic data
         $API_KEY = "0NXZXOGWYWERI0NF";
-        $date = "2022-06-17 15:45:00";
-
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL,("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=$ticker&interval=5min&apikey=$API_KEY"));
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
         $server_output = curl_exec ($ch);
         curl_close ($ch);
         $result = json_decode($server_output);
-
-
-        //Using the non-premium version of API, there is a limit to calls/minute, and will return error message if overused
-        try{
+        
+        if(isset($result->{'Time Series (5min)'})){
             $dataForRecentTime = $result->{'Time Series (5min)'};
 
-            $dataForSingleTime = $dataForRecentTime->{$date};
+            $dArr = array($dataForRecentTime);
+            $dateMostRecentTime = key($dArr[0]);
+
+            $dataForSingleTime = $dataForRecentTime->{$dateMostRecentTime};
 
             $tickerPrice = $dataForSingleTime->{'4. close'};
 
-        }catch(Exception $e){
-            $tickerPrice = "API MAX: 5 calls a minute, please refresh after time passed, as this is the demo version";
+        }else{
+            $tickerPrice="";
         }
         return $tickerPrice;
 
+    }
+
+    /* Function readInTickers
+    *
+    * @desc Function to pull in the information of all existing stock listings from the API
+    * @Created on 22-06-2022
+    * @return String[] allTickers
+    */
+
+    function readInTickers(){
+        $API_KEY = "0NXZXOGWYWERI0NF";
+        //allTickers format, first index will represent the ticker,
+        //and the second represents a specific info on the ticker
+        //s[x][0], is the symbol name for stock number x
+        $data = file_get_contents("https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=$API_KEY");
+        $rows = explode("\n",$data);
+        $allTickers = array();
+        foreach($rows as $row) {
+            $allTickers[] = str_getcsv($row);
+        }
+
+        return $allTickers;
     }
 
     /* Function modifyPassword

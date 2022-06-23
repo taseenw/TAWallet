@@ -599,3 +599,8 @@ h1.welcome{
   color: #d6d6d6;
   opacity: 40%;
 }
+
+.warning h2{
+  color: var(--mblue);
+  text-align: center;
+}
