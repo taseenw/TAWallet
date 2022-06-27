@@ -17,6 +17,33 @@
     //Call to function fetching all the users data based on email logged in, and fetch users wallet
     $userData = pullUserData($_SESSION['userEmail']);
     $userWallet = pullUserWallet($_SESSION['userEmail']);
+
+    //Buy submitted functionality:
+    if(isset($_POST["buySubmit"])){
+        $buySymbol=$_POST["tickerChoiceToBuy"];
+        $buyQuantity=$_POST["tickerQuantToBuy"];
+        //Call to function buying the ticker, and updating the users wallet, if ticker is valid
+        $newUserWallet = makeWalletPurchase($userWallet, $buySymbol, $buyQuantity);
+        if(isset($newUserWallet)){
+            updateUserWallet($_SESSION['userEmail'], $newUserWallet);
+        }else{
+            echo "<script>alert('Error: Symbol Does Not Exist');</script>";
+        }
+        header("Refresh:0");
+    }
+    //Sell submitted functionality:
+    if(isset($_POST["sellSubmit"])){
+        $sellSymbol=$_POST["tickerChoice"];
+        $sellQuantity=$_POST["tickerQuant"];
+        //Call function to modify wallet according to sale, then update user wallet, if valid sale
+        $newUserWallet = makeWalletSale($userWallet, $sellSymbol, $sellQuantity);
+        if(isset($newUserWallet)){
+            updateUserWallet($_SESSION['userEmail'], $newUserWallet);
+        }else{
+            echo "<script>alert('Error: Attempt to sell more than held');</script>";
+        }
+        header("Refresh:0");
+    }
 ?>
 
 <!DOCTYPE html>
@@ -75,7 +102,7 @@
 
                         <h2 id="confirmOrder">
                             Confirm Addition
-                            <input type="submit" name="submit" value="✔️">
+                            <input type="submit" name="buySubmit" value="✔️">
                         </h2>
                     </form>
                 </div>
@@ -123,7 +150,7 @@
 
                         <h2 id="confirmOrder">
                             Confirm Subtraction
-                            <input type="submit" name="submit" value="✔️">
+                            <input type="submit" name="sellSubmit" value="✔️">
                         </h2>
                     </form>
                 </div>

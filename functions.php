@@ -114,7 +114,7 @@
     * @desc Function to pull in the wallet of the user thats logged in through the database
     * @Created on 15-06-2022
     * @param String emailLoggedIn
-    * @return Array userWallet (JSON Formatted)
+    * @return String userWallet (JSON Formatted)
     */
 
     function pullUserWallet($emailLoggedIn){
@@ -223,6 +223,101 @@
         }
 
         return $allTickers;
+    }
+
+    /* Function makeWalletSale
+    *
+    * @desc function to modify the users wallet according to the sale, such that it is valid
+    * @Created on 25-06-2022
+    * @param String userWallet (JSON Formatted), String sellSymbol, String sellQuantity
+    */
+
+    function makeWalletSale($userWallet, $sellSymbol, $sellQuantity){
+        $jsonExistingWalletToModify = json_decode($userWallet);
+        $newSymbolQuantity = $jsonExistingWalletToModify->$sellSymbol-$sellQuantity;
+
+        if($newSymbolQuantity > 0){
+            $jsonExistingWalletToModify->$sellSymbol=$newSymbolQuantity;
+            $updatedUserWallet = json_encode($jsonExistingWalletToModify);
+            return $updatedUserWallet;
+        }else if($newSymbolQuantity == 0){    //If user sells all of a stock, remove it from the wallet
+            $jsonExistingWalletToModify->$sellSymbol=$newSymbolQuantity;
+            $updatedUserWallet = json_encode($jsonExistingWalletToModify);
+            $updatedUserWallet = deleteSymbolFromWallet($updatedUserWallet, $sellSymbol);
+            return $updatedUserWallet;
+        }else{  //If user tries to sell more than they have, return error
+            return null;
+        }
+    }
+
+    /* Function makeWalletPurchase
+    *
+    * @desc function to modify the users wallet according to the buy, such that it is valid
+    * @Created on 25-06-2022
+    * @param String userWallet (JSON Formatted), String buySymbol, String buyQuantity
+    */
+
+    function makeWalletPurchase($userWallet, $buySymbol, $buyQuantity){
+        //Consider cases where user tries to buy more of a stock than they have, or a stock hold none of yet
+        $userAlreadyHasSymbol = false;
+        $jsonExistingWalletToModify = json_decode($userWallet);
+
+        //Wallet already has the symbol, add to the quantity
+        foreach($jsonExistingWalletToModify as $ticker => $quantHeld) {
+            if($ticker == $buySymbol){
+                $userAlreadyHasSymbol = true;
+                $newSymbolQuantity = $jsonExistingWalletToModify->$buySymbol+$buyQuantity;
+                $jsonExistingWalletToModify->$buySymbol=$newSymbolQuantity;
+                $updatedUserWallet = json_encode($jsonExistingWalletToModify);
+                return $updatedUserWallet;
+            }
+        }
+
+        if(!$userAlreadyHasSymbol){ //Wallet does not have the symbol yet, and it's real, add it to the wallet
+            $symbolExistanceCheck = getTickerValues($buySymbol);
+            if($symbolExistanceCheck != ""){
+                $jsonExistingWalletToModify->$buySymbol=$buyQuantity;
+                $updatedUserWallet = json_encode($jsonExistingWalletToModify);
+                return $updatedUserWallet;
+            //Symbol doesn't exist, return null
+            }else{
+                return null;
+            }
+        }else{
+            return null;
+        }
+    }
+
+
+    /* Function deleteSymbolFromWallet
+    *
+    * @desc function to delete a symbol from a wallet when it is sold out
+    * @Created on 25-06-2022
+    * @param String userWallet (JSON Formatted), String sellSymbol
+    */
+
+    function deleteSymbolFromWallet($userWallet, $sellSymbol){
+        $jsonExistingWalletToModify = json_decode($userWallet);
+        unset($jsonExistingWalletToModify->$sellSymbol);
+        $updatedUserWallet = json_encode($jsonExistingWalletToModify);
+        return $updatedUserWallet;
+    }
+
+    /* Function updateUserWallet
+    *
+    * @desc function to update the users wallet
+    * @Created on 25-06-2022
+    * @param String userEmail, String updatedUserWallet
+    */
+
+    function updateUserWallet($emailLoggedIn, $updatedUserWallet){
+        global $pdo;
+        $qry = $pdo->prepare("UPDATE wallets SET userWallet = :userWallet WHERE userEmail = :userEmail");
+        $qry -> execute(array(
+            'userWallet' => $updatedUserWallet,
+            'userEmail' => $emailLoggedIn
+        ));
+
     }
 
     /* Function modifyPassword
