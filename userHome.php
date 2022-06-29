@@ -78,8 +78,8 @@
                     </div>
                     <h3>Buy</h3>
                     <form name="buyForm" class="transactionBox" method='POST' id="buyForm">
-                        <input type="text" id="tickerChoiceToBuy" name="tickerChoiceToBuy" placeholder="Symbol" onchange="updateBuySummary()">
-                        <input type="number" min ="1" name="tickerQuantToBuy" onchange="updateBuySummary()" placeholder="Quantity" id="tickerQuantToBuy" autocomplete="off">
+                        <input type="text" id="tickerChoiceToBuy" name="tickerChoiceToBuy" placeholder="Symbol" onchange="updateBuySummary()" required>
+                        <input type="number" min ="1" name="tickerQuantToBuy" onchange="updateBuySummary()" placeholder="Quantity" id="tickerQuantToBuy" autocomplete="off" required>
 
                         <div class = "transactionSummary">
                             <br><h4 style="text-decoration: underline">Transaction Summary</h4>
@@ -88,7 +88,7 @@
                                     <th>Holding: </th><td id = "tickerNameToBuy"> </td>
                                 </tr>
                                 <tr>
-                                    <th>Quantity: </th><td id = "tickerQuantToBuy"> </td>
+                                    <th>Quantity: </th><td id = "tickerQuantityToBuy"> </td>
                                 </tr>
                                 <tr>
                                     <th>Price Per: </th><td id = "pricePerToBuy"> </td>
@@ -118,7 +118,7 @@
                     </div>
                     <h3>Sell</h3>
                     <form name="sellForm" class="transactionBox" method='POST' id="sellForm">
-                        <select id="tickerChoice" name="tickerChoice" onchange="updateSellSummary()" form="sellForm">
+                        <select id="tickerChoice" name="tickerChoice" onchange="updateSellSummary()" form="sellForm" required>
                             <option value="" selected disabled hidden>Select Holding</option>
                             <?php
                             $jsonWallet = json_decode($userWallet);
@@ -127,7 +127,7 @@
                             }
                             ?>
                         </select>
-                        <input type="number" min ="1" name="tickerQuant" onchange="updateSellSummary()" placeholder="Quantity" id="tickerQuant" autocomplete="off">
+                        <input type="number" min ="1" name="tickerQuant" onchange="updateSellSummary()" placeholder="Quantity" id="tickerQuant" autocomplete="off" required>
 
                         <div class = "transactionSummary">
                             <br><h4 style="text-decoration: underline">Transaction Summary</h4>
@@ -193,7 +193,7 @@
                     var totalBuyPrice = pricePerNumToBuy*tickerQuantToBuy;
 
                     document.getElementById('tickerNameToBuy').innerHTML = curTickerToBuy;
-                    document.getElementById('tickerQuantity').innerHTML = tickerQuantToBuy;
+                    document.getElementById('tickerQuantityToBuy').innerHTML = tickerQuantToBuy;
                     if(isNaN(totalBuyPrice)){totalBuyPrice="";}
                     document.getElementById('totalBuyPrice').innerHTML = "$"+totalBuyPrice;
                 }

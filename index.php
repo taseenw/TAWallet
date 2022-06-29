@@ -50,9 +50,9 @@
                     <h2>TAWallet</h2>
                     <h4>Portflio<span> Login</span></h4>
                     <h5 id ="prompt" >Sign in to your account.</h5>
-                        <input type="email" name="email" placeholder="Email" id="em" autocomplete="off">
+                        <input type="email" name="email" placeholder="Email" id="em" autocomplete="off" required>
                         <i class="typcn typcn-eye" id="eye"></i>
-                        <input type="password" name="password" placeholder="Password" id="pwd" autocomplete="off">
+                        <input type="password" name="password" placeholder="Password" id="pwd" autocomplete="off" required>
                         <input type="submit" name ="submit" value="Sign in" class="btn1">
                 </form>
                 <a href="#" class="dnthave" onclick="location.href='registration.php'">Don't have an account? Sign up</a>

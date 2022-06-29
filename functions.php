@@ -161,9 +161,9 @@
             $holdCount++;
         }
         if($portfolioTotalValue == 0 && $holdCount !=0){
-            echo "Portfolio Value: <i>API Call Limit Reached - Reload after 1 minute for value calculation</i>";
+            echo "<p style='font-size: larger; margin: 3px; padding-top: 4px; padding-bottom: 0px'>Portfolio Value: <i>API Call Limit Reached - Reload after 1 minute for value calculation</i></p>";
         }else{
-            echo "Portfolio Value : $".round($portfolioTotalValue, 2);
+            echo "<p style='font-size: large; margin: 3px; padding-top: 4px; padding-bottom: 0px'>Portfolio Value : $".round($portfolioTotalValue, 2)."</p>";
         }
 
     }
@@ -283,8 +283,6 @@
             }else{
                 return null;
             }
-        }else{
-            return null;
         }
     }
 

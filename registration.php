@@ -45,11 +45,11 @@
                     <h2>TAWallet</h2>
                     <h4>Portflio<span> Sign Up</span></h4>
                     <h5 id ="prompt">Sign up for your account</h5>
-                        <input type="text" name="name" placeholder="Full Name" autocomplete="off">
+                        <input type="text" name="name" placeholder="Full Name" autocomplete="off" required>
                         <i class="typcn typcn-eye" id="eye"></i>
-                        <input type="email" name="email" placeholder="Email" autocomplete="off">
-                        <input type="password" name="password" placeholder="Password" id="pwd" autocomplete="off">
-                        <input type="password" name="confPassword" placeholder="Confirm Password" id="pwd" autocomplete="off">
+                        <input type="email" name="email" placeholder="Email" autocomplete="off" required>
+                        <input type="password" name="password" placeholder="Password" id="pwd" autocomplete="off" required>
+                        <input type="password" name="confPassword" placeholder="Confirm Password" id="pwd" autocomplete="off" required>
                         <input type="submit" name="submit" value="Sign Up" class="regBtn1">
                 </form>
                 <a href="#" class="returnLogin" onclick="location.href='index.php'">Return to Login</a>
