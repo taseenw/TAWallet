@@ -5,11 +5,9 @@ This application is PHP based, using a hefty amount of JavaScript implementation
 
 Demo 🎥 - https://www.youtube.com/watch?v=As-QS6NOxcQ
 
-A very user friendly application for the average investor to efficiently track buys/sells of market investments (paper or actual) featuring:
+A very user friendly application for the average investor to efficiently track buys/sells of market investments featuring:
 <ul>
   <li> Secure login and account information storage and function (passwords hashed, and upon logout all session details are destroyed)</li>
-  <br>
-  <li> Abilities to view all of the managers and employees that belong to the same company</li>
   <br>
   <li> Using well the structured modals and portfolio hub, users can:</li>
   <ul>
@@ -19,6 +17,7 @@ A very user friendly application for the average investor to efficiently track b
     <li> View a detailed and updated transaction summary with the according details</li>
   </ul>
   <br>
+  <li> Consitent transaction and input validation</li>
   <li> All of which occur instantaneously on both the users end and the database</li>
   <li> Thorough error checking, exception handling, and efficiency testing</li>
   <li> Elegant usage of colours, CSS Styling, and interactive buttons, modals and tables
