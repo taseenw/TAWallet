@@ -1,5 +1,4 @@
-# TAWallet
-## Investment Tracking Hub
+# TAWallet - Investment Tracking Hub
 
 An easy to use applications for managers to review, store, modify, and delete their employees data in one place
 This application is PHP based, using a hefty amount of JavaScript implementation, the use of an SQL database, the Alphavantage Stock API, and HTML/CSS
