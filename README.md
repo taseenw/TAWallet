@@ -18,7 +18,7 @@ A very user friendly application for the average investor to efficiently track b
   </ul>
   <br>
   <li> Consitent transaction and input validation</li>
-  <li> All of which occur instantaneously on both the users end and the database</li>
+  <li> Instantaneous ouput on both the users end and the database</li>
   <li> Thorough error checking, exception handling, and efficiency testing</li>
   <li> Elegant usage of colours, CSS Styling, and interactive buttons, modals and tables
 </ul><br>
