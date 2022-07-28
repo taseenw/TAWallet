@@ -17,7 +17,7 @@ A user friendly application for the average investor to efficiently track buys/s
     <li> View a detailed and updated transaction summary with the according details</li>
   </ul>
   <br>
-  <li> Consitent transaction and input validation</li>
+  <li> Consistent transaction and input validation</li>
   <li> Instantaneous ouput on both the users end and the database</li>
   <li> Thorough error checking, exception handling, and efficiency testing</li>
   <li> Elegant usage of colours, CSS Styling, and interactive buttons, modals and tables
