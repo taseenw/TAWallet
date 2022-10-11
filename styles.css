@@ -303,7 +303,7 @@ h1.welcome{
 
 .walletContainer h5{
   margin: 23px;
-  padding-top: 30px;
+  padding-top: 15px;
   padding-bottom: 15px;
 
   padding-left: 20px;
@@ -321,6 +321,33 @@ h1.welcome{
 
   box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
   color: var(--cyan);
+}
+
+table.portfolioTable{
+  border-spacing: 0;
+  border-collapse: collapse;
+}
+
+table.portfolioTable th{
+  color: var(--mblue);
+  font-size: large;
+  font-weight: bold;
+  padding: 10px;
+}
+
+/* portfolio table data */
+table.portfolioTable td{
+  color: var(--cyan);
+  font-size: larger;
+  padding: 10px;
+}
+
+/* portfolio table, tr class totalrow */
+table.portfolioTable tr.totalrow{
+  background-color: rgb( 33, 41, 66 );
+  border-top: 10px solid var(--mblue);
+  border-bottom: 10px solid var(--teal);
+  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
 }
 
 .navBar {

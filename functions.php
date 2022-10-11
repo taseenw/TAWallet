@@ -146,25 +146,56 @@
         $jsonWallet = json_decode($userWallet);
         $portfolioTotalValue = 0;
 
+        //Put holdings in a table
+        echo "<table class='portfolioTable'>
+                <thead>
+                    <tr>
+                        <th scope='col'>Ticker</th>
+                        <th scope='col'>Quantity</th>
+                        <th scope='col'>Current Price</th>
+                        <th scope='col'>Total Value</th>
+                    </tr>
+                </thead>";
+
         //Iterate all tickers (stocks/coins in wallet), print holding data
         foreach($jsonWallet as $ticker => $quantHeld) {
             $currentTickerValue = getTickerValues($ticker);
             //Return case of invalid ticker
             if($currentTickerValue != ""){
                 $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
-                echo $ticker.' : '.$quantHeld." | Current Price: $".$currentTickerValue." | Holding Value: $".$currentTickerHoldingValue."<br>";
+
+                echo "<tr>
+                        <td>".$ticker."</td>
+                        <td>".$quantHeld."</td>
+                        <td>$".$currentTickerValue."</td>
+                        <td>$".$currentTickerHoldingValue."</td>
+                    </tr>";
+
+
+
+                // echo $ticker.' : '.$quantHeld." | Current Price: $".$currentTickerValue." | Holding Value: $".$currentTickerHoldingValue."<br>";
                 $portfolioTotalValue += $currentTickerHoldingValue;
                 $tickerCount++;
             }else{
-                echo $ticker.' : '.$quantHeld." | <i>API Call Limit Reached - Reload after 1 minute for price calculations</i><br>";
+                //Print error message in table properly
+                echo "<tr>
+                        <td>".$ticker."</td>
+                        <td>".$quantHeld."</td>
+                        <td colspan='2'><i>API Call Limit Reached - Reload after 1 minute for price calculations</i></td>
+                    </tr>";
             }
             $holdCount++;
         }
         if($portfolioTotalValue == 0 && $holdCount !=0){
-            echo "<p style='font-size: larger; margin: 3px; padding-top: 4px; padding-bottom: 0px'>Portfolio Value: <i>API Call Limit Reached - Reload after 1 minute for value calculation</i></p>";
+            echo "<tr class = 'totalRow'>
+                    <td colspan='4'>API Call Limit Reached - Reload after 1 minute for Portfolio Value calculation</td>
+                </tr>";
         }else{
-            echo "<p style='font-size: large; margin: 3px; padding-top: 4px; padding-bottom: 0px'>Portfolio Value : $".round($portfolioTotalValue, 2)."</p>";
+            echo "<tr class = 'totalRow'>
+                    <th colspan='4'>Portfolio Value : $".round($portfolioTotalValue, 2)."</th>
+                </tr>";
         }
+        echo "</table>";
 
     }
 
