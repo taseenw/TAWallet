@@ -3,7 +3,7 @@ A portfolio application allowing users to effortless track their market buys/sel
 <br><br>
 PHP based, using a hefty amount of JavaScript implementation, the use of an SQL database, the Alphavantage Stock API, and HTML/CSS
 
-Demo 🎥 (<b>'*'Newest Major Update MISSING, new demo coming soon*</b>) - https://www.youtube.com/watch?v=As-QS6NOxcQ
+Demo 🎥 (<b><u>Newest Major Update MISSING, new demo coming soon*</u></b>) - https://www.youtube.com/watch?v=As-QS6NOxcQ
 
 A user friendly application for the average investor to efficiently track buys/sells of market investments featuring:
 <ul>
