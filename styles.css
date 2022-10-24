@@ -54,7 +54,7 @@ body, html {
   border-bottom: 10px solid var(--teal);
   width: 400px;
   height: 500px;
-  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
+  box-shadow: 1px 1px 108.8px 19.2px rgb(0, 132, 255);
 }
 
 .regContainer{
@@ -70,7 +70,7 @@ body, html {
   border-bottom: 10px solid var(--teal);
   width: 400px;
   height: 600px;
-  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
+  box-shadow: 1px 1px 108.8px 19.2px rgb(0, 132, 255);
 }
 
 .box h2 {
@@ -111,11 +111,11 @@ body, html {
   width: 320px;
   outline: none;
   color: #d6d6d6;
-      -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -ms-transition: all .2s ease-out;
+  -o-transition: all .2s ease-out;
+  transition: all .2s ease-out;
   
 }
 ::-webkit-input-placeholder {
@@ -165,11 +165,11 @@ body, html {
   width: 320px;
   outline: none;
   color: #d6d6d6;
-      -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -ms-transition: all .2s ease-out;
+  -o-transition: all .2s ease-out;
+  transition: all .2s ease-out;
   
 }
 
@@ -353,6 +353,8 @@ table.portfolioTable tr.totalrow{
 .navBar {
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: bold;
+  background-color: var(--bluebkg);
+  height: 50px;
 }
 
 .navBar ul {
@@ -360,14 +362,10 @@ table.portfolioTable tr.totalrow{
   margin: 0;
   padding: 0;
   overflow: hidden;
-  background-color: var(--bluebkg);
 }
 
-.navBar li {
+.navBar li a{
   float: left;
-}
-
-.navBar li a {
   display: block;
   color: var(--mblue);
   text-align: center;
@@ -377,8 +375,11 @@ table.portfolioTable tr.totalrow{
 
 .navBar li a:hover:not(.active) {
   color: var(--cyan);
-  font-size: larger;
-  padding: 10px 10px;
+  transition: 0.2s;
+  cursor: pointer;
+  /* make nav items larger on hover, make sure it pushes other items the to the side, and becomes larger from the middle */
+  transform: scale(1.2);
+  transform-origin: center;
 }
 
 
@@ -568,11 +569,11 @@ table.portfolioTable tr.totalrow{
   width: 320px;
   outline: none;
   color: #d6d6d6;
-      -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -ms-transition: all .2s ease-out;
+  -o-transition: all .2s ease-out;
+  transition: all .2s ease-out;
   
 }
 
@@ -593,11 +594,11 @@ table.portfolioTable tr.totalrow{
   width: 320px;
   outline: none;
   color: #d6d6d6;
-      -webkit-transition: all .2s ease-out;
-    -moz-transition: all .2s ease-out;
-    -ms-transition: all .2s ease-out;
-    -o-transition: all .2s ease-out;
-    transition: all .2s ease-out;
+  -webkit-transition: all .2s ease-out;
+  -moz-transition: all .2s ease-out;
+  -ms-transition: all .2s ease-out;
+  -o-transition: all .2s ease-out;
+  transition: all .2s ease-out;
 }
 
 .transactionBox input[type = "submit"]{
@@ -613,11 +614,25 @@ table.portfolioTable tr.totalrow{
   text-align: left;
 }
 
-#confirmOrder{
+.confirmOrder{
+  background-color: var(--dblue);
+  border: none;
   color: white;
-  font-size: 22px;
-  padding: 4px;
-  margin: 4px; 
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 17px;
+  border-radius: 100px;
+  margin-bottom: 15px;
+  font-family: 'Source Sans Pro', sans-serif;
+}
+
+/* hover animation with transiation */
+.confirmOrder:hover {
+  background-color: var(--mblue);
+  transition: 0.2s;
+  cursor: pointer;
 }
 
 #tickerQuant::placeholder{
@@ -630,4 +645,26 @@ table.portfolioTable tr.totalrow{
 .warning h2{
   color: var(--mblue);
   text-align: center;
+}
+
+.exportButton{
+  background-color: var(--dblue);
+  border: none;
+  color: white;
+  padding: 7px 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 15px;
+  margin: 2px 1px;
+  border-radius: 100px;
+  font-family: 'Source Sans Pro', sans-serif;
+
+}
+
+/* hover animation with transiation */
+.exportButton:hover {
+  background-color: var(--mblue);
+  transition: 0.2s;
+  cursor: pointer;
 }

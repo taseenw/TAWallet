@@ -145,9 +145,10 @@
         $holdCount=0;
         $jsonWallet = json_decode($userWallet);
         $portfolioTotalValue = 0;
-
+        $body = "";
         //Put holdings in a table
-        echo "<table class='portfolioTable'>
+
+        $body .= "<table class='portfolioTable' id='portfolioTable'>
                 <thead>
                     <tr>
                         <th scope='col'>Ticker</th>
@@ -164,7 +165,7 @@
             if($currentTickerValue != ""){
                 $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
 
-                echo "<tr>
+                $body .= "<tr>
                         <td>".$ticker."</td>
                         <td>".$quantHeld."</td>
                         <td>$".$currentTickerValue."</td>
@@ -178,25 +179,26 @@
                 $tickerCount++;
             }else{
                 //Print error message in table properly
-                echo "<tr>
+                $body .= "<tr>
                         <td>".$ticker."</td>
                         <td>".$quantHeld."</td>
-                        <td colspan='2'><i>API Call Limit Reached - Reload after 1 minute for price calculations</i></td>
+                        <td colspan='2'><i>API Call Limit Reached</i></td>
                     </tr>";
             }
             $holdCount++;
         }
         if($portfolioTotalValue == 0 && $holdCount !=0){
-            echo "<tr class = 'totalRow'>
-                    <td colspan='4'>API Call Limit Reached - Reload after 1 minute for Portfolio Value calculation</td>
+            $body .= "<tr class = 'totalRow'>
+                    <td colspan='4'>API Call Limit Reached</td>
                 </tr>";
         }else{
-            echo "<tr class = 'totalRow'>
+            $body .= "<tr class = 'totalRow'>
                     <th colspan='4'>Portfolio Value : $".round($portfolioTotalValue, 2)."</th>
                 </tr>";
         }
-        echo "</table>";
+        $body .= "</table>";
 
+        return $body;
     }
 
     /* Function getTickerValues
@@ -208,52 +210,25 @@
     */
 
     function getTickerValues($ticker){
-        //Dynamic data
-        $API_KEY = "0NXZXOGWYWERI0NF";
-        $ch = curl_init();
-        curl_setopt($ch, CURLOPT_URL,("https://www.alphavantage.co/query?function=TIME_SERIES_INTRADAY&symbol=$ticker&interval=5min&apikey=$API_KEY"));
-        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        $server_output = curl_exec ($ch);
-        curl_close ($ch);
-        $result = json_decode($server_output);
-        
-        if(isset($result->{'Time Series (5min)'})){
-            $dataForRecentTime = $result->{'Time Series (5min)'};
+        // $queryString = http_build_query([
+        //     'access_key' => 'edcb0c1f1de2d9d2c9c3b0a67e2fe39b'
+        // ]);
+        // $ch = curl_init(sprintf('%s?%s', 'http://api.marketstack.com/v1/tickers/'.$ticker.'/eod', $queryString));
+        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        // $json = curl_exec($ch);
+        // curl_close($ch);
 
-            $dArr = array($dataForRecentTime);
-            $dateMostRecentTime = key($dArr[0]);
+        // $apiResult = json_decode($json, true);
+        // //Not found, or API call limit reached, return error message
+        // if(isset($apiResult['error'])){
+        //     $tickerPrice = $apiResult['error']['message'];
+        // }else{
+        //     $data = $apiResult['data'];
+        //     $tickerPrice = $data['eod'][0]['close'];
+        // }
+        // return $tickerPrice;
 
-            $dataForSingleTime = $dataForRecentTime->{$dateMostRecentTime};
-
-            $tickerPrice = $dataForSingleTime->{'4. close'};
-
-        }else{
-            $tickerPrice="";
-        }
-        return $tickerPrice;
-
-    }
-
-    /* Function readInTickers
-    *
-    * @desc Function to pull in the information of all existing stock listings from the API
-    * @Created on 22-06-2022
-    * @return String[] allTickers
-    */
-
-    function readInTickers(){
-        $API_KEY = "0NXZXOGWYWERI0NF";
-        //allTickers format, first index will represent the ticker,
-        //and the second represents a specific info on the ticker
-        //s[x][0], is the symbol name for stock number x
-        $data = file_get_contents("https://www.alphavantage.co/query?function=LISTING_STATUS&apikey=$API_KEY");
-        $rows = explode("\n",$data);
-        $allTickers = array();
-        foreach($rows as $row) {
-            $allTickers[] = str_getcsv($row);
-        }
-
-        return $allTickers;
+        return 69;
     }
 
     /* Function makeWalletSale
@@ -306,7 +281,7 @@
 
         if(!$userAlreadyHasSymbol){ //Wallet does not have the symbol yet, and it's real, add it to the wallet
             $symbolExistanceCheck = getTickerValues($buySymbol);
-            if($symbolExistanceCheck != ""){
+            if($symbolExistanceCheck != "Not Found"){
                 $jsonExistingWalletToModify->$buySymbol=$buyQuantity;
                 $updatedUserWallet = json_encode($jsonExistingWalletToModify);
                 return $updatedUserWallet;

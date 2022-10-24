@@ -1,9 +1,9 @@
 # TAWallet - Investment Tracking Hub
 A portfolio application allowing users to effortless track their market buys/sells, and overall portfolio holdings
 <br><br>
-PHP based, using a hefty amount of JavaScript implementation, the use of an SQL database, the Alphavantage Stock API, and HTML/CSS
+PHP based, using a hefty amount of JavaScript implementation, the use of an SQL database, the MarketStack Stock API, and HTML/CSS
 
-Demo 🎥 (*Missing last design update) - https://www.youtube.com/watch?v=As-QS6NOxcQ
+Demo 🎥 (*Missing NEW API usage, and new design updates) - https://www.youtube.com/watch?v=As-QS6NOxcQ
 
 A user friendly application for the average investor to efficiently track buys/sells of market investments featuring:
 <ul>
@@ -13,8 +13,9 @@ A user friendly application for the average investor to efficiently track buys/s
   <ul>
     <li> Easily view their individual holdings as well as overall portfolio value</li>
     <li> Buy new/more of their existing stocks to add to their current portfolio</li>
-    <li> Sell any of the users existing holdings</li></li>
+    <li> Sell any of the users existing holdings</li>
     <li> View a detailed and updated transaction summary with the according details</li>
+    <li> Export user holdings to an xlsx file</li>
   </ul>
   <br>
   <li> Consistent transaction and input validation</li>

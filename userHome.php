@@ -22,7 +22,7 @@
     if(isset($_POST["buySubmit"])){
         $buySymbol=$_POST["tickerChoiceToBuy"];
         $buyQuantity=$_POST["tickerQuantToBuy"];
-        //Call to function buying the ticker, and updating the users wallet, if ticker is valid
+        //Call to function buying the ticker, and updating the users wallet, if ticker is valid (checked in function)
         $newUserWallet = makeWalletPurchase($userWallet, $buySymbol, $buyQuantity);
         if(isset($newUserWallet)){
             updateUserWallet($_SESSION['userEmail'], $newUserWallet);
@@ -52,8 +52,11 @@
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script type="text/javascript" src="https://unpkg.com/xlsx@0.15.1/dist/xlsx.full.min.js"></script>
         <title>TAWallet</title>
         <link rel="stylesheet" href="styles.css">
+        <!-- include root.js -->
+        <script src="root.js"></script>
     </head>
 
     <body id="particles-js" class="fullbkg" background = "normalBackground.jpg">
@@ -99,11 +102,7 @@
                             </table>
                             <p id = "transSummary"> </p>
                         </div>
-
-                        <h2 id="confirmOrder">
-                            Confirm Addition
-                            <input type="submit" name="buySubmit" value="✔️">
-                        </h2>
+                        <button type="submit" class="confirmOrder" name="buySubmit">Confirm Addition</button>
                     </form>
                 </div>
             </div>
@@ -147,11 +146,7 @@
                             </table>
                             <p id = "transSummary"> </p>
                         </div>
-
-                        <h2 id="confirmOrder">
-                            Confirm Subtraction
-                            <input type="submit" name="sellSubmit" value="✔️">
-                        </h2>
+                        <button type="submit" class="confirmOrder" name="sellSubmit">Confirm Sale</button>
                     </form>
                 </div>
             </div>
@@ -161,97 +156,13 @@
 
         <div class="warning"><h2 id="warning"> </h2></div>
         <div class="walletContainer">
-            <h5><?php constructWalletHoldings($userWallet);?></h5>
-            <p id = "holdings"> </p>
+            <h5>
+                <?php 
+                echo constructWalletHoldings($userWallet);
+                ?>
+                <button class="exportButton" onclick="exportWallet('xlsx')">Export Wallet</button>
+            </h5>
         </div>
-
-        <script>
-            //JavaScript functions: updateSummary for Sell/Buy Modals, and necessary functions for Modal functionality/display
-            function updateBuySummary(){
-                var curTickerToBuy = document.getElementById('tickerChoiceToBuy').value;
-                var tickerQuantToBuy = document.getElementById('tickerQuantToBuy').value;
-                var pricePerToBuy = document.getElementById('pricePerToBuy');
-                //AJAX Request to get current ticker price, using existing PHP methods
-                //Approach is used in order to use js obtained variable in PHP (ticker)
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                    // this.responseText is the response
-                    pricePerToBuy.innerHTML = "$"+this.responseText;
-                    }
-                };
-                xhttp.open("GET", "jsTickerPriceReq.php?ticker="+curTickerToBuy);//Looking up employee via another page, passing phone number to identify the specific employee we're looking for
-                xhttp.send();
-
-                //Extract the ticker price as a number, to then calculate the total transaction price
-                var pricePerNumToBuy = pricePerToBuy.innerHTML;
-                //Return case of an invalid symbol
-                if(pricePerNumToBuy != ""){
-                    //Remember, pricePerNum format is a string: $12345
-                    pricePerNumToBuy = parseInt(pricePerNumToBuy.slice(1));
-
-                    var totalBuyPrice = pricePerNumToBuy*tickerQuantToBuy;
-
-                    document.getElementById('tickerNameToBuy').innerHTML = curTickerToBuy;
-                    document.getElementById('tickerQuantityToBuy').innerHTML = tickerQuantToBuy;
-                    if(isNaN(totalBuyPrice)){totalBuyPrice="";}
-                    document.getElementById('totalBuyPrice').innerHTML = "$"+totalBuyPrice;
-                }
-
-            }
-
-            function updateSellSummary(){
-                var curTicker = document.getElementById('tickerChoice').value;
-                var tickerQuant = document.getElementById('tickerQuant').value;
-                var pricePer = document.getElementById('pricePer');
-                //AJAX Request to get current ticker price, using existing PHP methods
-                //Approach is used in order to use js obtained variable in PHP (ticker)
-                var yhttp = new XMLHttpRequest();
-                yhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                    // this.responseText is the response
-                        pricePer.innerHTML = "$"+this.responseText;
-                    }
-                };
-                yhttp.open("GET", "jsTickerPriceReq.php?ticker="+curTicker);//Looking up employee via another page, passing phone number to identify the specific employee we're looking for
-                yhttp.send();
-
-                //Extract the ticker price as a number, to then calculate the total transaction price
-                var pricePerNum = pricePer.innerHTML;
-
-                //Remember, pricePerNum format is a string: $12345
-                pricePerNum = parseInt(pricePerNum.slice(1));
-
-                var totalSalePrice = pricePerNum*tickerQuant;
-
-                document.getElementById('tickerName').innerHTML = curTicker;
-                document.getElementById('tickerQuantity').innerHTML = tickerQuant;
-                document.getElementById('totalSalePrice').innerHTML = "$"+totalSalePrice;
-
-            }
-
-            function openBuyModal(){
-                var buyModal = document.getElementById('buyModal');
-                buyModal.style.display = "block";
-            }
-
-            function openSellModal(){
-                var sellModal = document.getElementById('sellModal');
-                sellModal.style.display = "block";            }
-
-            function closeModal() {
-                buyModal.style.display = "none";
-                sellModal.style.display = "none";
-            }
-
-            window.onclick = function(event) {
-                if (event.target == buyModal || event.target == sellModal) {
-                    buyModal.style.display = "none";
-                    sellModal.style.display = "none";
-                }
-            }
-            
-        </script>
 
     </body>
 </html>
