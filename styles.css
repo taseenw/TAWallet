@@ -54,7 +54,7 @@ body, html {
   border-bottom: 10px solid var(--teal);
   width: 400px;
   height: 500px;
-  box-shadow: 1px 1px 108.8px 19.2px rgb(0, 132, 255);
+  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
 }
 
 .regContainer{
@@ -70,7 +70,7 @@ body, html {
   border-bottom: 10px solid var(--teal);
   width: 400px;
   height: 600px;
-  box-shadow: 1px 1px 108.8px 19.2px rgb(0, 132, 255);
+  box-shadow: 1px 1px 108.8px 19.2px rgb(2, 5, 53);
 }
 
 .box h2 {
@@ -309,7 +309,7 @@ h1.welcome{
   padding-left: 20px;
   padding-right: 20px;
 
-  top: 200px;
+  top:190px;
   left: 50%;
   position: absolute;
   text-align: center;

@@ -155,12 +155,15 @@
                         <th scope='col'>Quantity</th>
                         <th scope='col'>Current Price</th>
                         <th scope='col'>Total Value</th>
+                        <th scope='col'>Day Change</th>
                     </tr>
                 </thead>";
 
         //Iterate all tickers (stocks/coins in wallet), print holding data
         foreach($jsonWallet as $ticker => $quantHeld) {
-            $currentTickerValue = getTickerValues($ticker);
+            $tickerValues = getTickerValues($ticker);
+            $currentTickerValue = $tickerValues['tickerPrice'];
+            $previousDayChange = $tickerValues['previousDayChange'];
             //Return case of invalid ticker
             if($currentTickerValue != ""){
                 $currentTickerHoldingValue = $currentTickerValue * $quantHeld;
@@ -170,6 +173,7 @@
                         <td>".$quantHeld."</td>
                         <td>$".$currentTickerValue."</td>
                         <td>$".$currentTickerHoldingValue."</td>
+                        <td>".$previousDayChange."%</td>
                     </tr>";
 
 
@@ -183,6 +187,7 @@
                         <td>".$ticker."</td>
                         <td>".$quantHeld."</td>
                         <td colspan='2'><i>API Call Limit Reached</i></td>
+                        <td></td>
                     </tr>";
             }
             $holdCount++;
@@ -193,7 +198,7 @@
                 </tr>";
         }else{
             $body .= "<tr class = 'totalRow'>
-                    <th colspan='4'>Portfolio Value : $".round($portfolioTotalValue, 2)."</th>
+                    <th colspan='5'>Portfolio Value : $".round($portfolioTotalValue, 2)."</th>
                 </tr>";
         }
         $body .= "</table>";
@@ -206,29 +211,63 @@
     * @desc Function to pull the information for the passed ticker, using the STOCK API
     * @Created on 17-06-2022
     * @param String ticker
-    * @return String tickerPrice
+    * @return Array tickerData [tickerPrice, tickerChange]
     */
 
     function getTickerValues($ticker){
-        // $queryString = http_build_query([
-        //     'access_key' => 'edcb0c1f1de2d9d2c9c3b0a67e2fe39b'
-        // ]);
-        // $ch = curl_init(sprintf('%s?%s', 'http://api.marketstack.com/v1/tickers/'.$ticker.'/eod', $queryString));
-        // curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-        // $json = curl_exec($ch);
-        // curl_close($ch);
+        $tickerData = array();
+        $queryString = http_build_query([
+            'access_key' => 'edcb0c1f1de2d9d2c9c3b0a67e2fe39b'
+        ]);
+        $ch = curl_init(sprintf('%s?%s', 'http://api.marketstack.com/v1/tickers/'.$ticker.'/intraday', $queryString));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $json = curl_exec($ch);
+        curl_close($ch);
 
-        // $apiResult = json_decode($json, true);
-        // //Not found, or API call limit reached, return error message
-        // if(isset($apiResult['error'])){
-        //     $tickerPrice = $apiResult['error']['message'];
-        // }else{
-        //     $data = $apiResult['data'];
-        //     $tickerPrice = $data['eod'][0]['close'];
-        // }
-        // return $tickerPrice;
+        $apiResult = json_decode($json, true);
+        //Not found, or API call limit reached, return error message
+        if(isset($apiResult['error'])){
+            $tickerData['tickerPrice'] = $apiResult['error']['message'];
+            $tickerData['previousDayChange'] = $apiResult['error']['message'];
+        }else{
+            $data = $apiResult['data'];
+            // $tickerPrice = $data['eod'][0]['close'];
+            $tickerData['tickerPrice'] = $data['intraday'][0]['last'];
+            // $tickerData['previousDayChange'] = $tickerData['tickerPrice'] - $data['intraday'][0]['close']; 
+            //previous day change is the percentage difference between the current price and the previous day close
+            $tickerData['previousDayChange'] = round((($tickerData['tickerPrice'] - $data['intraday'][0]['close'])/$data['intraday'][0]['close'])*100, 2);
+        }
 
-        return 69;
+        return $tickerData;
+    }
+
+    /* Function getLastClose
+    *
+    * @desc Function to pull the close of the previous day, used when market is closed
+    * @Created on 17-06-2022
+    * @param String ticker
+    * @return String getLastEODclose
+    */
+
+    function getLastEODclose($ticker){
+        $queryString = http_build_query([
+            'access_key' => 'edcb0c1f1de2d9d2c9c3b0a67e2fe39b'
+        ]);
+
+        $ch = curl_init(sprintf('%s?%s', 'http://api.marketstack.com/v1/tickers/'.$ticker.'/eod', $queryString));
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
+        $json = curl_exec($ch);
+        curl_close($ch);
+
+        $apiResult = json_decode($json, true);
+        //Not found, or API call limit reached, return error message
+        if(isset($apiResult['error'])){
+            $lastEODclose = $apiResult['error']['message'];
+        }else{
+            $data = $apiResult['data'];
+            $lastEODclose = $data['eod'][0]['close'];
+        }
+        return $lastEODclose;
     }
 
     /* Function makeWalletSale
@@ -280,7 +319,7 @@
         }
 
         if(!$userAlreadyHasSymbol){ //Wallet does not have the symbol yet, and it's real, add it to the wallet
-            $symbolExistanceCheck = getTickerValues($buySymbol);
+            $symbolExistanceCheck = getTickerValues($buySymbol)['tickerPrice'];
             if($symbolExistanceCheck != "Not Found"){
                 $jsonExistingWalletToModify->$buySymbol=$buyQuantity;
                 $updatedUserWallet = json_encode($jsonExistingWalletToModify);

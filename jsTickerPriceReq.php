@@ -7,6 +7,6 @@
 
     include("functions.php");
     
-    $tickerPrice = getTickerValues($_GET["ticker"]);
+    $tickerPrice = getTickerValues($_GET["ticker"])['tickerPrice'];
     echo $tickerPrice;
 ?>
