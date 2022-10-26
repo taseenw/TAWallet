@@ -231,25 +231,30 @@
             $tickerData['previousDayChange'] = $apiResult['error']['message'];
         }else{
             $data = $apiResult['data'];
-            // $tickerPrice = $data['eod'][0]['close'];
             $tickerData['tickerPrice'] = $data['intraday'][0]['last'];
-            // $tickerData['previousDayChange'] = $tickerData['tickerPrice'] - $data['intraday'][0]['close']; 
-            //previous day change is the percentage difference between the current price and the previous day close
-            $tickerData['previousDayChange'] = round((($tickerData['tickerPrice'] - $data['intraday'][0]['close'])/$data['intraday'][0]['close'])*100, 2);
+
+            if(empty($tickerData['tickerPrice'])){ //If the price is returned empty, it means the market is closed, so we use the previous day's close price
+                $lastEODs = getLastEODclose($ticker);
+                $tickerData['tickerPrice'] = $lastEODs['todayEOD'];
+                $tickerData['previousDayChange'] = round((($tickerData['tickerPrice'] - $lastEODs['prevEOD'])/$lastEODs['prevEOD'])*100, 2);
+            }else{
+                $tickerData['previousDayChange'] = round((($tickerData['tickerPrice'] - $data['intraday'][0]['close'])/$data['intraday'][0]['close'])*100, 2);
+            }
         }
 
         return $tickerData;
     }
 
-    /* Function getLastClose
+    /* Function getLastEODclose
     *
-    * @desc Function to pull the close of the previous day, used when market is closed
+    * @desc Function to pull the close of the previous day, and today: used when market is closed
     * @Created on 17-06-2022
     * @param String ticker
-    * @return String getLastEODclose
+    * @return Array closeArray [todayEOD, prevEOD]
     */
 
     function getLastEODclose($ticker){
+        $closeArray = array();
         $queryString = http_build_query([
             'access_key' => 'edcb0c1f1de2d9d2c9c3b0a67e2fe39b'
         ]);
@@ -262,12 +267,14 @@
         $apiResult = json_decode($json, true);
         //Not found, or API call limit reached, return error message
         if(isset($apiResult['error'])){
-            $lastEODclose = $apiResult['error']['message'];
+            $todayEODclose = $apiResult['error']['message'];
         }else{
             $data = $apiResult['data'];
-            $lastEODclose = $data['eod'][0]['close'];
+            $closeArray['todayEOD'] = $data['eod'][0]['close'];
+            $closeArray['prevEOD'] = $data['eod'][1]['close'];
         }
-        return $lastEODclose;
+        
+        return $closeArray;
     }
 
     /* Function makeWalletSale

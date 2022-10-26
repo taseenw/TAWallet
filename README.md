@@ -9,7 +9,7 @@ A user friendly application for the average investor to efficiently track buys/s
   <br>
   <li> Using well the structured modals and portfolio hub, users can:</li>
   <ul>
-    <li> Easily view their individual holdings, previous day comparison, as well as overall portfolio value</li>
+    <li> Easily view their individual holdings, performance to previous day, as well as overall portfolio value</li>
     <li> Buy new/more of their existing stocks to add to their current portfolio</li>
     <li> Sell any of the users existing holdings</li>
     <li> View a detailed and updated transaction summary with the according details</li>
